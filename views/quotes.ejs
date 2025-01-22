@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotes for <%= topic.name %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>Quotes for <%= topic.name %></h1>
+
+    <!-- Add Quote Form -->
+    <form action="/quotes/<%= topic._id %>/add" method="POST" onsubmit="return validateForm()">
+      <div class="mb-3">
+        <label for="blackText" class="form-label">Black Text</label>
+        <input type="text" name="b" id="blackText" class="form-control" placeholder="Enter black text" required>
+      </div>
+      <div class="mb-3">
+        <label for="redText" class="form-label">Red Text</label>
+        <input type="text" name="r" id="redText" class="form-control" placeholder="Enter red text" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Add Quote</button>
+    </form>
+
+    <!-- Display Quotes -->
+    <% if (topic.quotes.length > 0) { %>
+      <ul class="list-group mt-4">
+        <% topic.quotes.forEach((quote, index) => { %>
+          <% if (quote && quote.includes(' | ')) { %>
+            <% const [black, red] = quote.split(' | '); %>
+            <li class="list-group-item">
+              <p><strong>Black:</strong> <%= black %></p>
+              <p><strong>Red:</strong> <span class="text-danger"><%= red %></span></p>
+              <form action="/quotes/<%= topic._id %>/quotes/<%= index %>/delete" method="POST" class="mt-2">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            </li>
+          <% } else { %>
+            <li class="list-group-item text-warning">
+              Invalid quote format
+              <form action="/quotes/<%= topic._id %>/quotes/<%= index %>/delete" method="POST" class="mt-2">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            </li>
+          <% } %>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p class="text-warning mt-4">No quotes available for this topic.</p>
+    <% } %>
+
+    <a href="/topics" class="btn btn-secondary mt-4">Back to Topics</a>
+  </div>
+
+  <script>
+    function validateForm() {
+      const blackText = document.getElementById('blackText').value.trim();
+      const redText = document.getElementById('redText').value.trim();
+
+      if (!blackText || !redText) {
+        alert('Both Black Text and Red Text are required!');
+        return false; // Prevent form submission
+      }
+      return true; // Allow form submission
+    }
+  </script>
+</body>
+</html>

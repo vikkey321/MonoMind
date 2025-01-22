@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <h1 class="text-primary mb-4">Add New Topic</h1>
+  <form action="/topics/add" method="POST">
+    <!-- Topic Name -->
+    <div class="mb-3">
+      <label for="name" class="form-label">Topic Name</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        id="name" 
+        name="name" 
+        placeholder="Enter the topic name" 
+        required 
+      >
+    </div>
+
+    <!-- Description -->
+    <div class="mb-3">
+      <label for="description" class="form-label">Description (optional)</label>
+      <textarea 
+        class="form-control" 
+        id="description" 
+        name="description" 
+        rows="4" 
+        placeholder="Enter a brief description or add a quote" 
+      ></textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-success">Add Topic</button>
+    <a href="/" class="btn btn-secondary ms-2">Cancel</a>
+  </form>
+</div>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  .container {
+    max-width: 600px;
+  }
+  .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+</style>
